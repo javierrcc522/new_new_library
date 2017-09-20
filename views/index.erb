@@ -1,0 +1,24 @@
+
+<h1>Find a book</h1>
+
+<% if @specialty.any?() %>
+  <h3>Here are your lists:</h3>
+
+  <ul>
+    <% @specialty.each() do |s| %>
+      <li><a href="/<%= s.id()%>"><%= s.special() %></a> </li>
+
+    <% end %>
+  </ul>
+
+<% else %>
+
+    <p>There are no specialties!</p>
+
+<% end %>
+
+<form action="/" method="post">
+  <label for="spec_name">Specialty</label>
+  <input id="spec_name" name="spec_name" type="text">
+  <button type="submit">Add specialty</button>
+</form>
