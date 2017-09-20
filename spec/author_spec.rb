@@ -3,7 +3,6 @@ require('pg')
 require('author')
 require('spec_helper')
 
-DB = PG.connect({:dbname => 'library_test'})
 
 describe(Author) do
   describe(".all") do
