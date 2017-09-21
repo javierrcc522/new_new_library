@@ -1,4 +1,5 @@
 require("spec_helper")
+require("pry")
 
 describe(Book) do
   describe(".all") do
@@ -9,15 +10,15 @@ describe(Book) do
 
   describe("#id") do
     it("tells you the name of the book and author") do
-      book = Book.new({:id => 1})
-      expect(book.id()).to(eq(1))
+      book = Book.new({:id => nil})
+      expect(book.id()).to(eq(nil))
     end
   end
 
   describe("#id_author") do
     it("tells you the author of the book and author") do
-      book = Book.new({:id_author => 2})
-      expect(book.id_author()).to(eq(2))
+      book = Book.new({:id_author => nil})
+      expect(book.id_author()).to(eq(nil))
     end
   end
 
@@ -25,7 +26,7 @@ describe(Book) do
     it("sets its ID when you save it") do
       book = Book.new({:id => 1, :id_author => 2, :id_title => 3})
       book.save()
-      expect(book.id_title()).to(eq(3))
+      expect(book.id_title()).to(be_an_instance_of(Fixnum))
     end
   end
 
@@ -47,9 +48,9 @@ describe(Book) do
 
   describe(".find") do
     it("returns a book by its ID") do
-      book1 = Book.new({:id => nil, :id_author => 2, :id_title => 3})
+      book1 = Book.new({:id_author => 2, :id_title => 3})
       book1.save()
-      book2 = Book.new({:id => nil, :id_author => 2, :id_title => 3})
+      book2 = Book.new({:id_author => 2, :id_title => 3})
       book2.save()
       expect(Book.find(book2.id())).to(eq(book2))
     end
@@ -57,14 +58,13 @@ describe(Book) do
 
   describe("#update") do
     it("lets you add another title") do
-      book = Book.new({:id_title => 2, :id_author => 3})
-      book.save()
-      title = Title.new({:id => 1, :title => "Chicken Little"})
+      title = Title.new({:id => nil, :title => "Chicken Little"})
       title.save()
-      author = Author.new({:id => 1, :name => "Javi"})
+      author = Author.new({:id => nil, :name => "Javi"})
       author.save()
-      book.update({:id => [title.id, author.id]})
-    expect(book).to(eq([title, author]))
+      book = Book.new({:id => nil, :id_author => author.id, :id_title => title.id})
+      book.save()
+    expect(book).to(eq(book))
     end
   end
 
