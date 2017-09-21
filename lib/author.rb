@@ -2,8 +2,8 @@ class Author
   attr_reader(:id,:name)
 
   def initialize(attributes)
-    @id = attributes.fetch(:id)
-    @name = attributes.fetch(:name)
+    @id = attributes[:id]
+    @name = attributes[:name]
   end
 
   def self.all
@@ -30,10 +30,15 @@ class Author
     (self.id==another_author.id).&(self.name==another_author.name)
   end
 
-  def update(name)
-    @new_name = name
-    DB.exec("UPDATE authors SET name = '#{@new_name}' WHERE id = #{@id}")
+  def update(attributes)
+  @name = attributes.fetch(:name, @name)
+  DB.exec("UPDATE authors SET name = '#{@name}' WHERE id = #{self.id()};")
+
+  attributes.fetch(:id_title, []).each() do |title|
+    DB.exec("INSERT INTO books (id_title, id_author) VALUES (#{title}, #{self.id()});")
+    end
   end
+
 
   def self.find(id)
     found_author = nil

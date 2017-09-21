@@ -41,11 +41,11 @@ describe(Title) do
   end
 
   describe("#update") do
-    it("updates a title") do
-      title = Title.new({:id => 1, :title => "Dan"})
+    it("lets you update a title") do
+      title = Title.new({:id => 1, :title => "Chicken Little"})
       title.save()
-      title.update({:title => "Dan"})
-      expect(title.title()).to(eq("Dan"))
+      title.update({:title => "Chicken Big"})
+      expect(title.title()).to(eq("Chicken Big"))
     end
   end
 

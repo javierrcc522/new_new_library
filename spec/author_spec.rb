@@ -44,8 +44,8 @@ describe(Author) do
     it("updates a author") do
       author = Author.new({:id => 1, :name => "Dan"})
       author.save()
-      author.update({:name => "Dan"})
-      expect(author.name()).to(eq("Dan"))
+      author.update({:name => "Javi"})
+      expect(author.name()).to(eq("Javi"))
     end
   end
 
