@@ -1,9 +1,4 @@
-require('rspec')
-require('pg')
-require('book')
-require('spec_helper')
-require('pry')
-
+require("spec_helper")
 
 describe(Book) do
   describe(".all") do

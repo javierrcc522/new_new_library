@@ -21,7 +21,7 @@ class Book
 
   def save
     result = DB.exec("INSERT INTO books (id, id_author, id_title) VALUES ('#{@id}', '#{@id_author}', '#{@id_title}') RETURNING id;")
-    # @id_specialties = result.first().fetch("id").to_i()
+    @id = result.first().fetch("id").to_i()
   end
 
   def ==(another_book)
@@ -38,13 +38,4 @@ class Book
     found_book
   end
 
-  def books
-    all_books = []
-    author = DB.exec("SELECT name FROM authors WHERE id = #{self.id()};")
-    title = DB.exec("SELECT title FROM titles WHERE id = #{self.id()};")
-    result = DB.exec("INSERT INTO books (id, id_author, id_title) VALUES (#{self.id()}, #{author}, #{title});")
-      all_books.push(Book.new(result))
-    end
-    all_books
-  end
 end

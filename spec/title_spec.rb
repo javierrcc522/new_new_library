@@ -1,8 +1,4 @@
-require('rspec')
-require('pg')
-require('title')
-require('spec_helper')
-
+require("spec_helper")
 
 describe(Title) do
   describe(".all") do
@@ -13,14 +9,14 @@ describe(Title) do
 
   describe("#title") do
     it("tells you its title") do
-      title = Title.new({:id => 1, :title => "Mockingbird"})
-      expect(title.title()).to(eq("Mockingbird"))
+      title = Title.new({:id => 1, :title => "Dan"})
+      expect(title.title()).to(eq("Dan"))
     end
   end
 
   describe("#save") do
     it("lets you save titles to the database") do
-      title = Title.new({:id => 1, :title => "Mockingbird"})
+      title = Title.new({:id => 1, :title => "Dan"})
       title.save()
       expect(Title.all()).to(eq([title]))
     end
@@ -28,25 +24,44 @@ describe(Title) do
 
   describe("#==") do
     it("is the same title if it has the same title") do
-      title1 = Title.new({:id => 1, :title => "Mockingbird"})
-      title2 = Title.new({:id => 1, :title => "Mockingbird"})
+      title1 = Title.new({:id => 1, :title => "Dan"})
+      title2 = Title.new({:id => 1, :title => "Dan"})
       expect(title1).to(eq(title2))
     end
   end
 
   describe(".find") do
     it("returns a title by its ID") do
-      test_title = Title.new({:id => 1, :title => "Mockingbird"})
-      test_title.save()
-      test_title2 = Title.new({:id => 2, :title => "Jaybird"})
-      test_title2.save()
-      expect(Title.find(test_title2.id())).to(eq(test_title2))
+      title1 = Title.new({:id => 1, :title => "Dan"})
+      title1.save()
+      title2 = Title.new({:id => 2, :title => "Javi"})
+      title2.save()
+      expect(Title.find(title2.id())).to(eq(title2))
     end
   end
 
+  describe("#update") do
+    it("updates a title") do
+      title = Title.new({:id => 1, :title => "Dan"})
+      title.save()
+      title.update({:title => "Dan"})
+      expect(title.title()).to(eq("Dan"))
+    end
+  end
+
+  describe("#delete") do
+    it("lets you delete an title from the database") do
+      title1 = Title.new({ :id => 1, :title => "Dan"})
+      title1.save()
+      title2 = Title.new({:id => 2, :title => "Javi"})
+      title2.save()
+      title1.delete()
+      expect(Title.all()).to(eq([title2]))
+    end
+  end
   # describe("#tasks") do
   #   it("returns an array of tasks for that title") do
-  #     test_title = Title.new({:id => 1, :title => "Title Mockingbird", :id_specialties => 1})
+  #     test_title = Title.new({:id => 1, :title => "Title Dan", :id_specialties => 1})
   #     test_title.save()
   #     test_task = Task.new({:description => "Learn SQL", :title_id_specialties => test_title.id_specialties(), :deadline => "2017-09-05 00:00:00"})
   #     test_task.save()

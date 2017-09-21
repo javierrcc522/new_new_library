@@ -18,12 +18,21 @@ class Author
   end
 
   def save
-    result = DB.exec("INSERT INTO authors (id, name) VALUES ('#{@id}', '#{@name}') RETURNING id;")
-    # @id_specialties = result.first().fetch("id").to_i()
+    result = DB.exec("INSERT INTO authors (name) VALUES ('#{@name}') RETURNING id;")
+    @id = result.first().fetch("id").to_i()
+  end
+
+  def delete
+    DB.exec("DELETE FROM authors WHERE id = #{@id};")
   end
 
   def ==(another_author)
     (self.id==another_author.id).&(self.name==another_author.name)
+  end
+
+  def update(name)
+    @new_name = name
+    DB.exec("UPDATE authors SET name = '#{@new_name}' WHERE id = #{@id}")
   end
 
   def self.find(id)
@@ -36,14 +45,4 @@ class Author
     found_author
   end
 
-  # def tasks
-  #   author_tasks = []
-  #   tasks = DB.exec("SELECT * FROM tasks WHERE author_id = #{self.id()};")
-  #   tasks.each() do |task|
-  #     description = task.fetch("description")
-  #     author_id = task.fetch("author_id").to_i()
-  #     author_tasks.push(Task.new({:description => description, :author_id => author_id}))
-  #   end
-  #   author_tasks
-  # end
 end

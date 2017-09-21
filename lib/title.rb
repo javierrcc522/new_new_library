@@ -18,12 +18,21 @@ class Title
   end
 
   def save
-    result = DB.exec("INSERT INTO titles (id, title) VALUES ('#{@id}', '#{@title}') RETURNING id;")
-    # @id_specialties = result.first().fetch("id").to_i()
+    result = DB.exec("INSERT INTO titles (title) VALUES ('#{@title}') RETURNING id;")
+    @id = result.first().fetch("id").to_i()
+  end
+
+  def delete
+    DB.exec("DELETE FROM titles WHERE id = #{@id};")
   end
 
   def ==(another_title)
     (self.id==another_title.id).&(self.title==another_title.title)
+  end
+
+  def update(title)
+    @new_title = title
+    DB.exec("UPDATE titles SET title = '#{@new_title}' WHERE id = #{@id}")
   end
 
   def self.find(id)
@@ -36,14 +45,4 @@ class Title
     found_title
   end
 
-  # def tasks
-  #   title_tasks = []
-  #   tasks = DB.exec("SELECT * FROM tasks WHERE title_id = #{self.id()};")
-  #   tasks.each() do |task|
-  #     description = task.fetch("description")
-  #     title_id = task.fetch("title_id").to_i()
-  #     title_tasks.push(Task.new({:description => description, :title_id => title_id}))
-  #   end
-  #   title_tasks
-  # end
 end
